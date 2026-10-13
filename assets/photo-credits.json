@@ -1,0 +1,154 @@
+[
+  {
+    "file": "assets/photos/interior.jpg",
+    "title": "奶油白软包椅",
+    "description": "浅灰绿色背景中的奶油白纽扣软包椅，正面构图，大面积留白。",
+    "tags": [
+      "家具",
+      "奶油白",
+      "留白",
+      "柔和"
+    ],
+    "source": "Unsplash",
+    "sourceUrl": "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c",
+    "downloadUrl": "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=700&q=85",
+    "credit": "Unsplash，摄影师未核实",
+    "licenseUrl": "https://unsplash.com/license",
+    "usageNote": "第三方摄影示例素材，不代表 Visense 原创或独家所有；不声明图片中物件或地点名称。",
+    "width": 700,
+    "height": 1051
+  },
+  {
+    "file": "assets/photos/pink.jpg",
+    "title": "暖砖色建筑曲线",
+    "description": "蓝天背景下的暖砖红色曲面建筑，低角度仰拍，重复水平纹理。",
+    "tags": [
+      "建筑",
+      "暖砖红",
+      "曲线",
+      "蓝天"
+    ],
+    "source": "Unsplash",
+    "sourceUrl": "https://images.unsplash.com/photo-1486718448742-163732cd1544",
+    "downloadUrl": "https://images.unsplash.com/photo-1486718448742-163732cd1544?auto=format&fit=crop&w=700&q=85",
+    "credit": "Unsplash，摄影师未核实",
+    "licenseUrl": "https://unsplash.com/license",
+    "usageNote": "第三方摄影示例素材，不代表 Visense 原创或独家所有；不声明图片中物件或地点名称。",
+    "width": 700,
+    "height": 1050
+  },
+  {
+    "file": "assets/photos/oranges.jpg",
+    "title": "枝叶与橙子",
+    "description": "浅灰绿色背景前带绿色枝叶的橙子静物，橙绿对比。",
+    "tags": [
+      "静物",
+      "橙色",
+      "绿色",
+      "自然光"
+    ],
+    "source": "Unsplash",
+    "sourceUrl": "https://images.unsplash.com/photo-1547514701-42782101795e",
+    "downloadUrl": "https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=700&q=85",
+    "credit": "Unsplash，摄影师未核实",
+    "licenseUrl": "https://unsplash.com/license",
+    "usageNote": "第三方摄影示例素材，不代表 Visense 原创或独家所有；不声明图片中物件或地点名称。",
+    "width": 700,
+    "height": 1050
+  },
+  {
+    "file": "assets/photos/botanical.jpg",
+    "title": "白墙前的琴叶榕",
+    "description": "白色墙面前的琴叶榕盆栽，深绿色叶片、纤细树干与编织盆套。",
+    "tags": [
+      "植物",
+      "绿色",
+      "留白",
+      "生活"
+    ],
+    "source": "Unsplash",
+    "sourceUrl": "https://images.unsplash.com/photo-1453904300235-0f2f60b15b5d",
+    "downloadUrl": "https://images.unsplash.com/photo-1453904300235-0f2f60b15b5d?auto=format&fit=crop&w=700&q=85",
+    "credit": "Unsplash，摄影师未核实",
+    "licenseUrl": "https://unsplash.com/license",
+    "usageNote": "第三方摄影示例素材，不代表 Visense 原创或独家所有；不声明图片中物件或地点名称。",
+    "width": 700,
+    "height": 1053
+  },
+  {
+    "file": "assets/photos/architecture.jpg",
+    "title": "白色几何建筑",
+    "description": "多面白色立面与玻璃结构组成的现代建筑，天空和建筑形成冷淡配色。",
+    "tags": [
+      "建筑",
+      "白色",
+      "几何",
+      "线条"
+    ],
+    "source": "Unsplash",
+    "sourceUrl": "https://images.unsplash.com/photo-1487958449943-2429e8be8625",
+    "downloadUrl": "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=700&q=85",
+    "credit": "Unsplash，摄影师未核实",
+    "licenseUrl": "https://unsplash.com/license",
+    "usageNote": "第三方摄影示例素材，不代表 Visense 原创或独家所有；不声明图片中物件或地点名称。",
+    "width": 700,
+    "height": 467
+  },
+  {
+    "file": "assets/photos/flowers.jpg",
+    "title": "蓝天下的黄色花朵",
+    "description": "蓝色背景前的黄色花朵，浅景深突出前景花瓣，明快黄蓝对比。",
+    "tags": [
+      "花卉",
+      "黄色",
+      "蓝色",
+      "浅景深"
+    ],
+    "source": "Unsplash",
+    "sourceUrl": "https://images.unsplash.com/photo-1490750967868-88aa4486c946",
+    "downloadUrl": "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=700&q=85",
+    "credit": "Unsplash，摄影师未核实",
+    "licenseUrl": "https://unsplash.com/license",
+    "usageNote": "第三方摄影示例素材，不代表 Visense 原创或独家所有；不声明图片中物件或地点名称。",
+    "width": 700,
+    "height": 467
+  },
+  {
+    "file": "assets/photos/sea.jpg",
+    "title": "暮色海面",
+    "description": "近距离海面波浪与柔和暮色天空，低饱和蓝灰和淡粉色调。",
+    "tags": [
+      "海面",
+      "蓝色",
+      "纹理",
+      "宁静"
+    ],
+    "source": "Unsplash",
+    "sourceUrl": "https://images.unsplash.com/photo-1518837695005-2083093ee35b",
+    "downloadUrl": "https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=700&q=85",
+    "credit": "Unsplash，摄影师未核实",
+    "licenseUrl": "https://unsplash.com/license",
+    "usageNote": "第三方摄影示例素材，不代表 Visense 原创或独家所有；不声明图片中物件或地点名称。",
+    "width": 700,
+    "height": 467
+  },
+  {
+    "file": "assets/photos/coffee.jpg",
+    "title": "植物间的咖啡拉花",
+    "description": "木桌上两杯带心形叶片拉花的咖啡，周围有绿色植物。",
+    "tags": [
+      "咖啡",
+      "植物",
+      "生活",
+      "木质"
+    ],
+    "source": "Unsplash",
+    "sourceUrl": "https://images.unsplash.com/photo-1509042239860-f550ce710b93",
+    "downloadUrl": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=700&q=85",
+    "credit": "Unsplash，摄影师未核实",
+    "licenseUrl": "https://unsplash.com/license",
+    "usageNote": "第三方摄影示例素材，不代表 Visense 原创或独家所有；不声明图片中物件或地点名称。",
+    "width": 700,
+    "height": 1050
+  }
+]
