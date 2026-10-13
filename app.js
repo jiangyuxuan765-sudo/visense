@@ -149,11 +149,62 @@ function regionStyle(r){return r?`left:${r.x*100}%;top:${r.y*100}%;width:${r.w*1
 function profilePage(){const bytes=JSON.stringify(db).length;return `<div class="color-pink">${brandHeader(ib('info','about','关于 Visense'))}<div class="profile-top"><button class="profile-identity" data-action="edit-profile" style="text-align:left"><span class="profile-avatar">V</span><span><h1>${esc(db.profile.name)}</h1><p>${esc(db.profile.bio)}</p></span></button><div class="stats-row"><button data-action="home"><strong>${db.items.length}</strong><span>已采集灵感</span></button><button data-action="show-liked"><strong>${db.items.filter(x=>x.liked).length}</strong><span>特别喜欢</span></button><button data-action="projects"><strong>${db.projects.length}</strong><span>创作项目</span></button></div></div></div><section class="section"><div class="section-heading"><h2>我的灵感习惯</h2><span class="eyebrow" style="margin:0;font-size:8px">MAKE IT YOURS</span></div><div class="settings-group">${settingsRow('heart','特别喜欢','留住最让你心动的那一部分','show-liked')}${settingsRow('archive','未整理的灵感','给零散的发现，补上一点想法','show-unorganized')}${settingsRow(themeMode()==='dark'?'moon':'sun','外观模式',(themeMode()==='dark'?'深色模式':'浅色模式')+' · Logo 随模式切换','appearance')}${settingsRow('user','个人资料','名字与创作签名','edit-profile')}</div><div class="settings-group"><button class="settings-row" data-action="toggle-ai">${icon('spark')}<span class="row-copy"><strong>AI 观察建议</strong><p>当前为演示体验，不会上传图片</p></span><span class="toggle ${db.settings.ai?'on':''}" role="switch" aria-checked="${db.settings.ai}" aria-label="AI 观察建议"></span></button>${settingsRow('shield','隐私与素材来源','你的灵感，保留在当前浏览器','privacy')}${settingsRow('download','备份我的灵感',`约 ${(bytes/1024/1024).toFixed(2)} MB · 导出完整资料`,'backup')}${settingsRow('refresh','从备份恢复','用之前导出的 Visense 备份恢复资料','restore')}${settingsRow('trash','清空本机资料','删除所有灵感、项目与个人设置','clear-data')}</div><div class="about-footer"><strong class="brand footer-brand"><img class="brand-logo" data-theme-logo src="${logoPath()}" alt="" width="40" height="40">Visense</strong><p>SMALL FINDS. ENDLESS POSSIBILITIES.</p><button class="section-link" style="margin:12px auto 0" data-action="welcome">重新认识 Visense ${icon('arrow')}</button></div></section>`;}
 function settingsRow(ic,title,sub,action){return `<button class="settings-row" data-action="${action}">${icon(ic)}<span class="row-copy"><strong>${title}</strong><p>${sub}</p></span>${icon('chevron')}</button>`;}
 function welcomePage(){return `<div class="onboarding"><div class="brand"><img class="brand-logo" data-theme-logo src="${logoPath()}" alt="" width="40" height="40">Visense</div><h1>Every little<br><em>spark,</em><br>a new idea.</h1><div class="welcome-shapes"><div class="welcome-yellow">拾取日常<span>Find your inspiration.</span></div><div class="welcome-blue">让灵感生长</div><div class="flower">保持好奇</div><p class="welcome-label">把此刻的心动，<br>留给下一次创作。</p></div>${btn('打开我的灵感口袋','home','arrow')}<p class="hint">随手采集 · 轻松找回 · 开始创作</p></div>`;}
-function showSheet(title,content,kind='',data={}){closeSheet(false);lastFocus=document.activeElement;modal={kind,...data};modalRoot.innerHTML=`<div class="modal-overlay"><section class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title"><div class="sheet-grabber"></div><div class="sheet-heading"><h2 id="sheet-title">${title}</h2>${ib('close','close-modal','关闭')}</div>${content}</section></div>`;$('#app-shell').classList.add('modal-open');app.inert=true;nav.inert=true;requestAnimationFrame(()=>$('.sheet .icon-btn')?.focus({preventScroll:true}));}
-function closeSheet(restore=true){if(modalCleanup){modalCleanup();modalCleanup=null;}modalRoot.innerHTML='';modal=null;$('#app-shell').classList.remove('modal-open');app.inert=false;nav.inert=false;if(restore&&lastFocus?.isConnected)lastFocus.focus({preventScroll:true});}
+let lastFocusIndex=0;
+function matchingFocusTargets(){return [...app.querySelectorAll('[data-action]'),...nav.querySelectorAll('[data-action]')].filter(el=>['action','id','value'].every(key=>el.dataset[key]===lastFocus?.dataset[key]));}
+function showSheet(title,content,kind='',data={}){
+ // Keep the sheet mounted when moving between its selection and confirmation views.
+ const sheet=$('.sheet',modalRoot),refreshOnClose=modal?.refreshOnClose||false;
+ if(modalCleanup){modalCleanup();modalCleanup=null;}
+ if(!sheet){lastFocus=document.activeElement;lastFocusIndex=matchingFocusTargets().indexOf(lastFocus);}
+ modal={kind,refreshOnClose,...data};const current=modal;
+ const body=`<div class="sheet-grabber"></div><div class="sheet-heading"><h2 id="sheet-title">${title}</h2>${ib('close','close-modal','关闭')}</div>${content}`;
+ if(sheet){sheet.innerHTML=body;sheet.scrollTop=0;}
+ else modalRoot.innerHTML=`<div class="modal-overlay"><section class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">${body}</section></div>`;
+ $('#app-shell').classList.add('modal-open');app.inert=true;nav.inert=true;
+ requestAnimationFrame(()=>{if(modal===current)$('.sheet .icon-btn')?.focus({preventScroll:true});});
+}
+function closeSheet(restore=true){
+ const refresh=modal?.refreshOnClose;
+ if(modalCleanup){modalCleanup();modalCleanup=null;}
+ modalRoot.innerHTML='';modal=null;$('#app-shell').classList.remove('modal-open');app.inert=false;nav.inert=false;
+ const currentExists=(!['detail','focus'].includes(screen.name)||!!item(screen.id))&&(screen.name!=='project'||!!project(screen.id));
+ if(refresh&&currentExists)render(false);
+ if(restore){
+  const matches=lastFocus?.dataset.action?matchingFocusTargets():[];
+  const target=lastFocus?.isConnected?lastFocus:matches[lastFocusIndex]||matches[0];
+  target?.focus({preventScroll:true});
+ }
+}
 function field(label,id,value='',type='input',placeholder='',limit=120){return `<div class="form-field"><label for="${id}">${label}</label>${type==='textarea'?`<textarea id="${id}" maxlength="${limit}" placeholder="${esc(placeholder)}">${esc(value)}</textarea>`:`<input id="${id}" value="${esc(value)}" maxlength="${limit}" placeholder="${esc(placeholder)}">`}</div>`;}
 function showProjectForm(p=null){showSheet(p?'编辑项目':'开启一个新想法',`<p class="hint">一个名字，就是一个创作的开始。</p>${field('项目名称','project-name',p?.name||'','input','例如：午后的散步日记',32)}${field('想做什么？（选填）','project-goal',p?.goal||'','textarea','记录创作方向、想传达的感觉……',300)}<div class="form-field"><span class="field-label">选一个项目颜色</span><div class="color-picker">${Object.entries(colors).map(([name,color])=>`<button class="color-choice ${(p?.color||'green')===name?'selected':''}" data-action="project-color" data-value="${name}" style="background:${color}" aria-label="${{green:'草绿',pink:'粉色',blue:'浅蓝',yellow:'明黄'}[name]}" aria-pressed="${(p?.color||'green')===name}"></button>`).join('')}</div></div>${btn(p?'保存项目':'创建项目','save-project','check')}`,'project-form',{projectId:p?.id,color:p?.color||'green'});}
-function showAssign(){const x=item(screen.id);showSheet('给灵感一个去处',`<p class="hint">同一个灵感，可以启发不同的项目。</p>${db.projects.filter(p=>!p.archived).map(p=>`<button class="project-choice ${p.refs.some(r=>r.id===x.id)?'selected':''}" data-action="toggle-assignment" data-id="${p.id}"><span style="background:${colors[p.color]}">${icon('folder')}</span><div><strong>${esc(p.name)}</strong><small>${p.refs.length} 个视觉参考</small></div><span class="circle-check">${p.refs.some(r=>r.id===x.id)?icon('check'):''}</span></button>`).join('')}${btn('新建项目','new-project','plus','secondary')}${btn('完成','close-modal','check')}`,'assign');}
+function showAssign(){const x=item(screen.id),scroll=modal?.assignScroll||0;showSheet('给灵感一个去处',`<p class="hint">同一个灵感，可以启发不同的项目。</p>${db.projects.filter(p=>!p.archived).map(p=>`<button class="project-choice ${p.refs.some(r=>r.id===x.id)?'selected':''}" data-action="toggle-assignment" data-id="${p.id}" aria-pressed="${p.refs.some(r=>r.id===x.id)}"><span style="background:${colors[p.color]}">${icon('folder')}</span><div><strong>${esc(p.name)}</strong><small>${p.refs.length} 个视觉参考</small></div><span class="circle-check">${p.refs.some(r=>r.id===x.id)?icon('check'):''}</span></button>`).join('')}${btn('新建项目','new-project','plus','secondary')}${btn('完成','close-modal','check')}`,'assign',{itemId:x.id});$('.sheet',modalRoot).scrollTop=scroll;}
+const assignmentSaves=new Set();
+function updateAssignmentChoices(){
+ if(modal?.kind!=='assign')return;
+ modalRoot.querySelectorAll('[data-action="toggle-assignment"]').forEach(el=>{
+  const p=project(el.dataset.id),selected=p.refs.some(r=>r.id===modal.itemId);
+  el.classList.toggle('selected',selected);el.setAttribute('aria-pressed',String(selected));
+  $('.circle-check',el).innerHTML=selected?icon('check'):'';$('small',el).textContent=`${p.refs.length} 个视觉参考`;
+ });
+}
+async function saveAssignment(projectId,itemId,remove=false){
+ const key=projectId+'/'+itemId,current=modal;
+ if(assignmentSaves.has(key))return;
+ assignmentSaves.add(key);
+ try{
+  const ok=await change(()=>{
+   const p=project(projectId);if(!p||!item(itemId))throw Error('这条灵感或项目已不存在。');
+   if(remove)p.refs=p.refs.filter(r=>r.id!==itemId);
+   else if(!p.refs.some(r=>r.id===itemId))p.refs.push({id:itemId,note:''});
+  },remove?'已移出项目':'已加入项目',false);
+  // Refresh the background on dismissal; selection never remounts the sheet or page.
+  if(modal){
+   modal.refreshOnClose=true;
+   if(ok&&modal===current&&remove)showAssign();
+   else if(modal.kind==='assign'&&modal.itemId===itemId)updateAssignmentChoices();
+  }else if(['detail','home','search','projects','project','profile'].includes(screen.name))render(false);
+ }finally{assignmentSaves.delete(key);}
+}
 function showPickItems(){const p=project(screen.id);const chosen=p.refs.map(r=>r.id);showSheet('为项目添加灵感',`<p class="hint">点选参考素材，已有的用途笔记会保留。</p><div class="picker-grid">${db.items.map(x=>`<button class="picker-card ${chosen.includes(x.id)?'selected':''}" data-action="pick-item" data-id="${x.id}" aria-pressed="${chosen.includes(x.id)}"><img src="${esc(x.image)}" alt="${esc(x.title)}"><span class="circle-check">${chosen.includes(x.id)?icon('check'):''}</span><p>${esc(x.title)}</p></button>`).join('')}</div>${!db.items.length?'<p class="hint">灵感库还是空的，先采集一张图片吧。</p>':''}<div class="sheet-sticky">${btn(`保存选择（${chosen.length}）`,'save-picked','check')}</div>`,'pick',{chosen:new Set(chosen)});}
 function showExport(){const p=project(screen.id);if(!p.refs.length){toast('先添加一张参考，再导出。');return;}showSheet('把灵感，带去创作',`<p class="hint">生成包含图片、用途和来源的 PDF 参考页。</p><div class="export-preview"><span class="eyebrow">A VISENSE COLLECTION</span><h3>${esc(p.name)}</h3><p>${esc(p.goal)}</p><div class="export-grid">${p.refs.slice(0,4).map(r=>item(r.id)).filter(Boolean).map(x=>`<div><img src="${esc(x.image)}" alt="${esc(x.title)}"><p>${esc(x.title)}</p></div>`).join('')}</div><div class="export-brand"><b class="export-logo-lockup"><img data-theme-logo src="${logoPath()}" alt="" width="20" height="20">Visense</b><span>${p.refs.length} 个视觉参考</span></div></div><p class="hint">包含全部 ${p.refs.length} 条参考，视觉页每页 3 条，附完整文字说明。导出文件不等于原始资料备份；素材授权仍以来源为准。</p>${btn('生成并下载 PDF','download-pdf','download')}`,'export');}
 function showEditItem(){const x=item(screen.id);showSheet('记下你自己的观察',`${field('灵感名称','item-title',x.title,'input','给它一个名字',40)}${field('为什么收藏','item-note',x.note,'textarea','记录让你心动的原因',300)}${field('关键词（用逗号分隔）','item-tags',x.tags.join('，'),'input','色彩、主题、氛围',120)}<div class="form-field"><label for="item-category">灵感类型</label><select id="item-category">${['摄影','插画','建筑','静物','其他'].map(c=>`<option ${c===x.category?'selected':''}>${c}</option>`).join('')}</select></div>${btn('保存我的记录','save-item','check')}`,'edit-item');}
@@ -207,8 +258,8 @@ async function doAction(a,el){const id=el.dataset.id,v=el.dataset.value,targetId
  case'remove-ref':{const p=project(targetId);const ref=p.refs.find(r=>r.id===id);showSheet('从项目中移出？',`<p class="modal-info">「${esc(item(id).title)}」将从当前项目移出，${ref.note?'这条项目用途笔记也会删除。':''}原始素材仍在灵感库中。</p>${btn('确认移出','confirm-remove-ref','close','',`data-id="${id}"`)}${btn('保留','close-modal','','secondary')}`);break;}
  case'confirm-remove-ref':if(await change(()=>{project(targetId).refs=project(targetId).refs.filter(r=>r.id!==id);},'已从项目移出'))closeSheet();break;
  case'assign-project':showAssign();break;
- case'toggle-assignment':{const p=project(id),xid=targetId;if(p.refs.some(r=>r.id===xid)){showSheet('从这个项目移出？',`<p class="modal-info">这条参考的项目用途也会删除，原图仍保留。</p>${btn('确认移出','confirm-unassign','close','',`data-id="${id}"`)}${btn('返回项目选择','assign-project','','secondary')}`);}else if(await change(()=>p.refs.push({id:xid,note:''}),'已加入项目'))showAssign();break;}
- case'confirm-unassign':if(await change(()=>{project(id).refs=project(id).refs.filter(r=>r.id!==targetId);},'已移出项目'))showAssign();break;
+ case'toggle-assignment':{const p=project(id),xid=targetId;if(assignmentSaves.has(id+'/'+xid))break;if(p.refs.some(r=>r.id===xid)){const assignScroll=$('.sheet',modalRoot).scrollTop;showSheet('从这个项目移出？',`<p class="modal-info">这条参考的项目用途也会删除，原图仍保留。</p>${btn('确认移出','confirm-unassign','close','',`data-id="${id}"`)}${btn('返回项目选择','assign-project','','secondary')}`,'unassign',{itemId:xid,assignScroll});}else await saveAssignment(id,xid);break;}
+ case'confirm-unassign':await saveAssignment(id,targetId,true);break;
  case'detail-menu':showSheet('整理这份灵感',`<button class="menu-action" data-action="edit-item">${icon('edit')}编辑名称与笔记</button><button class="menu-action" data-action="edit-focus">${icon('crop')}调整关注区域</button><button class="menu-action" data-action="edit-source">${icon('link')}编辑素材来源</button><button class="menu-action danger" data-action="delete-item">${icon('trash')}删除这份灵感</button>`);break;
  case'edit-item':showEditItem();break;
  case'save-item':{const title=$('#item-title').value.trim(),note=$('#item-note').value.trim(),tags=tagsFrom($('#item-tags').value),category=$('#item-category').value;if(!title){toast('灵感名称不能为空。');return;}if(await change(()=>Object.assign(item(targetId),{title,note,tags,category}),'记录已保存'))closeSheet();break;}
