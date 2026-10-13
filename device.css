@@ -1,0 +1,136 @@
+/* iPhone 16: 393 × 852 CSS points / 1179 × 2556 physical pixels.
+   The complete device scales uniformly. Only #app and open sheets scroll. */
+:root {
+  --device-scale: 1;
+  --screen-width: 393px;
+  --screen-height: 852px;
+  --ios-top: 59px;
+  --ios-bottom: 34px;
+}
+html, body { width: 100%; height: 100%; overflow: hidden; }
+html { background: #e9e7df; }
+body { padding: 0; }
+.device-stage {
+  width: 100%; height: 100dvh; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 15px; padding: 20px 12px;
+  background: radial-gradient(ellipse at 50% 38%, #fbfaf5 0%, #efede5 47%, #e2e1d8 100%);
+}
+.device-footprint {
+  position: relative; flex: 0 0 auto;
+  width: calc(421px * var(--device-scale));
+  height: calc(880px * var(--device-scale));
+}
+.iphone-device {
+  position: absolute; left: 0; top: 0; width: 421px; height: 880px;
+  padding: 11px; border: 3px solid #787b77; border-radius: 64px;
+  background: #080909; transform: scale(var(--device-scale)); transform-origin: top left;
+  box-shadow: 0 0 0 1px #272b27, inset 0 0 0 2px #282b28,
+    inset 0 0 0 4px #0a0b0a, 0 28px 52px -18px #23271e55,
+    0 5px 8px -2px #23271e44;
+}
+.device-button { position: absolute; width: 4px; background: linear-gradient(90deg, #565a57, #969b95, #333733); }
+.action-button { left: -6px; top: 147px; height: 26px; border-radius: 3px 0 0 3px; }
+.volume-up { left: -6px; top: 199px; height: 55px; border-radius: 3px 0 0 3px; }
+.volume-down { left: -6px; top: 269px; height: 55px; border-radius: 3px 0 0 3px; }
+.power-button { right: -6px; top: 226px; height: 86px; border-radius: 0 3px 3px 0; }
+.camera-button { right: -5px; top: 552px; height: 45px; border-radius: 0 3px 3px 0; background: #424743; }
+.device-caption { color: #7b7e72; font-size: 10px; letter-spacing: 1.3px; line-height: 16px; margin: 0; flex-shrink: 0; }
+.device-caption span { margin: 0 7px; color: #a6a89d; }
+.iphone-device .app-shell {
+  --status-background: var(--yellow);
+  width: var(--screen-width); height: var(--screen-height); min-height: 0; max-width: none;
+  position: relative; overflow: hidden; isolation: isolate; margin: 0;
+  border-radius: 50px; background: var(--paper); box-shadow: none; outline: none;
+}
+.ios-status-bar {
+  font-family: var(--font); font-style: normal;
+  position: absolute; left: 0; right: 0; top: 0; height: var(--ios-top);
+  background: var(--status-background); color: #141612;
+  z-index: 90; pointer-events: none; user-select: none;
+}
+.ios-time {
+  position: absolute; left: 30px; top: 20px; width: 56px;
+  font-size: 16px; font-weight: 650; line-height: 22px;
+  text-align: center; font-variant-numeric: tabular-nums; letter-spacing: -.45px;
+}
+.dynamic-island {
+  position: absolute; top: 11px; left: 50%; transform: translateX(-50%);
+  width: 126px; height: 37px; border-radius: 24px; background: #030404;
+  box-shadow: inset 0 0 1px 1px #121510;
+}
+.island-camera {
+  position: absolute; right: 11px; top: 12px; width: 13px; height: 13px; border-radius: 50%;
+  background: radial-gradient(circle at 60% 40%, #172233 0%, #0c1725 22%, #050b14 46%, #020403 68%);
+  box-shadow: 0 0 1px 2px #080b0c;
+}
+.ios-indicators { position: absolute; right: 27px; top: 24px; display: flex; gap: 5px; align-items: center; }
+.ios-indicators svg { display: block; fill: currentColor; height: 12px; }
+.ios-indicators .cellular-indicator { width: 18px; }
+.ios-indicators .wifi-indicator { width: 17px; }
+.ios-indicators .battery-indicator { width: 28px; height: 14px; }
+.ios-home-area {
+  position: absolute; bottom: 0; left: 0; right: 0; height: var(--ios-bottom);
+  background: var(--paper); z-index: 100; pointer-events: none;
+}
+.ios-home-area > span {
+  display: block; position: absolute; width: 134px; height: 5px; border-radius: 4px;
+  bottom: 8px; left: 50%; transform: translateX(-50%); background: #191b17;
+}
+.iphone-device #app {
+  position: absolute; inset: var(--ios-top) 0 var(--ios-bottom); min-height: 0;
+  overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 115px;
+  scroll-padding-top: 12px; scroll-padding-bottom: 112px;
+}
+.iphone-device #app::-webkit-scrollbar, .iphone-device .sheet::-webkit-scrollbar { display: none; }
+.iphone-device .no-nav #app { padding-bottom: 20px; scroll-padding-bottom: 95px; }
+.iphone-device .app-header { padding: 6px 23px 16px; }
+.iphone-device .page-header { padding: 6px 22px 14px; min-height: 62px; }
+.iphone-device .hero { border-radius: 0 0 32px 32px; }
+.iphone-device .hero-art { top: 89px; }
+.iphone-device .bottom-nav {
+  position: absolute; width: calc(100% - 36px); max-width: none;
+  bottom: 39px; height: 66px; left: 50%;
+}
+.iphone-device .toast { position: absolute; bottom: 125px; max-width: 345px; }
+.iphone-device .sticky-actions {
+  bottom: 0; margin-bottom: -20px; padding: 15px 22px 14px;
+}
+.iphone-device .sticky-actions::after {
+  content: ''; position: absolute; top: 100%; left: 0; right: 0;
+  height: 34px; background: var(--paper); pointer-events: none;
+}
+.iphone-device .onboarding { min-height: 759px; margin-bottom: -20px; padding: 15px 23px 20px; }
+.iphone-device .onboarding h1 { margin-top: 25px; }
+.iphone-device .boot { height: 759px; }
+.iphone-device .modal-overlay { position: absolute; inset: 0; overflow: hidden; }
+.iphone-device .sheet {
+  width: 100%; max-width: none; max-height: 754px; margin: 0;
+  padding: 11px 23px 51px; border-radius: 29px 29px 0 0;
+  scrollbar-width: none; scroll-padding-bottom: 55px;
+}
+.iphone-device .sheet-sticky { bottom: -51px; padding-bottom: 20px; }
+.iphone-device .picker-grid { max-height: 350px; }
+.iphone-device .sheet .form-field input,
+.iphone-device .sheet .form-field textarea,
+.iphone-device .sheet .form-field select,
+.iphone-device .search-field input,
+.iphone-device #capture-title,
+.iphone-device #focus-note { font-size: 16px; }
+.iphone-device .app-shell.modal-open #app { overflow: hidden; }
+/* The device always lays out at 393 points, even on a narrower browser. */
+@media (max-width: 370px) {
+  .iphone-device .hero h1 { font-size: 38px; max-width: 255px; }
+  .iphone-device .hero-art { right: 24px; width: 110px; transform: none; }
+  .iphone-device .hero-copy { padding-left: 23px; }
+  .iphone-device .hero .intro { font-size: 12px; }
+  .iphone-device .section { padding-left: 22px; padding-right: 22px; }
+  .iphone-device .masonry { gap: 15px; }
+  .iphone-device .page-banner h1 { font-size: 36px; }
+  .iphone-device .hero-footer { padding: 0 23px; }
+  .iphone-device .mini-count { font-size: 11px; }
+  .iphone-device .chip { padding: 9px 14px; font-size: 12px; }
+  .iphone-device .nav-item { font-size: 9px; }
+  .iphone-device .onboarding h1 { font-size: 47px; }
+}
