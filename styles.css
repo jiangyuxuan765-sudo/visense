@@ -18,3 +18,24 @@
 .nav-item > .icon { display: block; }
 .nav-item > .icon + span { margin-left: 0; text-align: center; }
 .nav-add::after { left: 50%; transform: translateX(-50%); white-space: nowrap; }
+
+/* Shared content sizing, matched to the Figma prototype's longer labels. */
+.project-title-block h1, .project-title-block > p,
+.project-reference-body h3, .project-reference-body > p,
+.detail-title h1, .note-block > p, .ai-card > p,
+.project-choice strong, .project-mini-pill, .modal-info,
+.export-preview h3, .export-preview > p, .export-grid p {
+  overflow-wrap: anywhere;
+}
+.project-reference > button, .project-choice > span:first-child { flex-shrink: 0; }
+.section-heading > h2, .sheet-heading > h2 { min-width: 0; }
+.section-heading small { display: inline-block; white-space: nowrap; letter-spacing: 0; }
+.sheet-heading > .icon-btn, .btn > .icon { flex-shrink: 0; }
+.btn > span { min-width: 0; overflow-wrap: anywhere; }
+.tag { max-width: 100%; overflow-wrap: anywhere; }
+.export-grid > div { min-width: 0; }
+.export-grid p { font-size: 10px; line-height: 1.5; min-height: 30px; }
+.export-brand { gap: 12px; align-items: center; }
+.export-brand > span { flex-shrink: 0; white-space: nowrap; }
+.project-example { margin: 0 0 4px; }
+.sample-observation { margin-top: 10px; }
