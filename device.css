@@ -46,13 +46,13 @@ body { padding: 0; }
 .ios-status-bar {
   font-family: var(--font); font-style: normal;
   position: absolute; left: 0; right: 0; top: 0; height: var(--ios-top);
-  background: var(--status-background); color: #141612;
+  background: var(--status-background); color: #000;
   z-index: 90; pointer-events: none; user-select: none;
 }
 .ios-time {
-  position: absolute; left: 30px; top: 20px; width: 56px;
-  font-size: 16px; font-weight: 650; line-height: 22px;
-  text-align: center; font-variant-numeric: tabular-nums; letter-spacing: -.45px;
+  position: absolute; left: 55.75px; top: 21px; width: 33px;
+  font-size: 17px; font-weight: 600; line-height: 22px;
+  text-align: center; font-variant-numeric: normal; letter-spacing: 0;
 }
 .dynamic-island {
   position: absolute; top: 11px; left: 50%; transform: translateX(-50%);
@@ -64,11 +64,11 @@ body { padding: 0; }
   background: radial-gradient(circle at 60% 40%, #172233 0%, #0c1725 22%, #050b14 46%, #020403 68%);
   box-shadow: 0 0 1px 2px #080b0c;
 }
-.ios-indicators { position: absolute; right: 27px; top: 24px; display: flex; gap: 5px; align-items: center; }
-.ios-indicators svg { display: block; fill: currentColor; height: 12px; }
-.ios-indicators .cellular-indicator { width: 18px; }
-.ios-indicators .wifi-indicator { width: 17px; }
-.ios-indicators .battery-indicator { width: 28px; height: 14px; }
+.ios-indicators { position: absolute; right: 33.415px; top: 21px; display: flex; gap: 7px; align-items: center; height: 22px; }
+.ios-indicators svg { display: block; fill: currentColor; }
+.ios-indicators .cellular-indicator { width: 19.2px; height: 12.22642px; }
+.ios-indicators .wifi-indicator { width: 17.14167px; height: 12.32831px; }
+.ios-indicators .battery-indicator { width: 27.32804px; height: 13px; }
 .ios-home-area {
   position: absolute; bottom: 0; left: 0; right: 0; height: var(--ios-bottom);
   background: var(--paper); z-index: 100; pointer-events: none;
